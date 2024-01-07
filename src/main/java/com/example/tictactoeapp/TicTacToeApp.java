@@ -1,0 +1,116 @@
+package com.example.tictactoeapp;
+import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
+import java.util.Objects;
+
+public class TicTacToeApp extends Application {
+
+    private String currentPlayer = "X";
+    private String[][] matrix = new String[][]{{"", "", ""}, {"", "", ""}, {"", "", ""}};
+    TicTacToe myGame;
+    private boolean playerFirstMoveCompleted = false;
+    private Button[][] buttons = new Button[3][3];
+    private Scene ticTacToeScene;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Tic Tac Toe");
+
+        // Create start screen
+        StackPane startLayout = createStartLayout(primaryStage);
+        Scene startScene = new Scene(startLayout, 300, 200);
+
+        // Create Tic Tac Toe game screen
+        GridPane gridPane = createGridPane();
+        addButtonsToGrid(gridPane);
+        ticTacToeScene = new Scene(gridPane, 300, 300);
+
+        // Set start screen as the initial scene
+        primaryStage.setScene(startScene);
+        primaryStage.show();
+    }
+
+    private StackPane createStartLayout(Stage primaryStage) {
+        StackPane startLayout = new StackPane();
+        Button startButton = new Button("Start");
+        startButton.setOnAction(event -> primaryStage.setScene(ticTacToeScene));
+        startLayout.getChildren().add(startButton);
+        return startLayout;
+    }
+
+    private GridPane createGridPane() {
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        return gridPane;
+    }
+
+    private void addButtonsToGrid(GridPane gridPane) {
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                Button button = createButton();
+                buttons[row][col] = button;
+
+                int finalRow = row;
+                int finalCol = col;
+
+                button.setOnAction(event -> handleButtonClick(finalRow, finalCol));
+
+                gridPane.add(button, col, row);
+            }
+        }
+    }
+
+    private Button createButton() {
+        Button button = new Button();
+        button.setMinSize(100, 100);
+        button.setStyle("-fx-font-size: 2em; -fx-background-radius: 0;");
+        return button;
+    }
+
+    private void handleButtonClick(int row, int col) {
+        Button button = buttons[row][col];
+
+        if (button.getText().isEmpty()) {
+            if(!playerFirstMoveCompleted){
+                matrix[row][col] = currentPlayer;
+                myGame = new TicTacToe(matrix);
+                myGame.Start();
+                playerFirstMoveCompleted = true;
+                button.setText(currentPlayer);
+                LinearList getCpuMove = myGame.getCpuMoveRowAndCol(myGame.gameTree.root);
+                System.out.println(getCpuMove);
+            }
+//            matrix[row][col] = currentPlayer;
+//            myGame.updateMatrix(row, col, currentPlayer);
+//            LinearList getCpuMove = myGame.getCpuMoveRowAndCol(myGame.gameTree.root);
+//            System.out.println(getCpuMove);
+//            Button buttonCpu = buttons[getCpuMove[0]][getCpuMove[1]];
+//            buttonCpu.setText("O");
+//            button.setText(currentPlayer);
+        }
+    }
+
+    private boolean checkForWinner(int row, int col) {
+        // Implement your logic to check for a winner
+        // You need to check the row, column, and diagonals
+        // Return true if there is a winner, false otherwise
+        return false;
+    }
+
+    private void announceWinner() {
+        // Implement the code to announce the winner
+        // You can use an Alert or any other way to display the winner
+    }
+}
