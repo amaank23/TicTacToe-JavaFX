@@ -1,4 +1,5 @@
 package com.example.tictactoeapp;
+import java.util.Random;
 
 import java.util.Objects;
 
@@ -8,6 +9,10 @@ public class TicTacToe {
     public TicTacToe(String[][] matrix){
         this.matrix = matrix;
         this.gameTree = new Tree();
+    }
+
+    public void NullTreeRoot(){
+        this.gameTree.root = null;
     }
 
     private void CreateGameTree(){
@@ -40,12 +45,12 @@ public class TicTacToe {
                     TreeNode newNode = new TreeNode(move);
                     root.addBranch(newNode);
                     if(newTurn == Turn.CPU){
-                        if(checkIfEitherPlayerOrCpuWins(possibilityToAdd, "O")){
+                        if(checkIfEitherPlayerOrCpuWinsOrDraw(possibilityToAdd, "O")){
                             return;
                         }
                         CreateGameTree(newNode, move, Turn.PLAYER);
                     } else {
-                        if(checkIfEitherPlayerOrCpuWins(possibilityToAdd, "X")){
+                        if(checkIfEitherPlayerOrCpuWinsOrDraw(possibilityToAdd, "X")){
                             return;
                         }
                         CreateGameTree(newNode, move, Turn.CPU);
@@ -55,107 +60,112 @@ public class TicTacToe {
         }
     }
 
-    public LinearList getCpuMoveRowAndCol(TreeNode node){
+    public int getCpuMoveRowAndCol(TreeNode node, boolean isMaximizingPlayer) {
         TreeNode root = node;
-        for(int i = 0; i < root.branches.size(); i++){
-            TreeNode currentBranch = root.branches.get(i);
-            // check if matrix is equals
-            if(checkIfMatricesAreEqual(this.matrix, currentBranch.data)){
-                // go deep inside this tree and check in which condition a Cpu wins or Draws
-                return checkIfCpuWinsOrDraws(currentBranch);
-            } else {
-                getCpuMoveRowAndCol(currentBranch);
-            }
+
+        if (checkIfEitherPlayerOrCpuWinsOrDraw(root.data.matrix, "O")) {
+            return -1;
+        } else if (checkIfEitherPlayerOrCpuWinsOrDraw(root.data.matrix, "X")) {
+            return 1;
+        } else if (checkIfGameIsTie(root.data.matrix)) {
+            return 0;
         }
-        return null;
+
+        if (isMaximizingPlayer) {
+            int maxScore = Integer.MIN_VALUE;
+            for (int i = 0; i < root.branches.size(); i++) {
+                TreeNode currentBranch = root.branches.get(i);
+                int score = getCpuMoveRowAndCol(currentBranch, false);
+                maxScore = Math.max(maxScore, score);
+            }
+            return maxScore;
+        } else {
+            int minScore = Integer.MAX_VALUE;
+            for (int i = 0; i < root.branches.size(); i++) {
+                TreeNode currentBranch = root.branches.get(i);
+                int score = getCpuMoveRowAndCol(currentBranch, true);
+                minScore = Math.min(minScore, score);
+            }
+            return minScore;
+        }
     }
 
-    private LinearList checkIfCpuWinsOrDraws(TreeNode node){
-        for(int i = 0; i < node.branches.size(); i++){
-            TreeNode currentBranch = node.branches.get(i);
-            if(checkIfEitherPlayerOrCpuWinsOrDraw(currentBranch.data.matrix, "O")){
-                LinearList linearList = new LinearList();
-                linearList.insertLast(currentBranch.data);
-                return linearList;
-            } else {
-                LinearList linearList = checkIfCpuWinsOrDraws(currentBranch);
-                if(linearList != null){
-                    linearList.insertLast(currentBranch.data);
+    public int findBestMove(TreeNode root) {
+        int bestMove = -1;
+        int bestScore = Integer.MIN_VALUE;
+
+        for (int i = 0; i < root.branches.size(); i++) {
+            TreeNode currentBranch = root.branches.get(i);
+            int score = getCpuMoveRowAndCol(currentBranch, false);
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestMove = i;
+            }
+        }
+
+        return bestMove;
+    }
+
+    public int[] chooseRandomEmptyCell(String[][] matrix) {
+        Random random = new Random();
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+
+        // Iterate until an empty cell is found
+        while (true) {
+            int row = random.nextInt(rows);
+            int col = random.nextInt(cols);
+            if (matrix[row][col].equals(" ")) { // Replace " " with your empty cell marker
+                return new int[] {row, col};
+            }
+        }
+    }
+
+    public int[] checkIfMatricesAreEqual(String[][] matrix1, String[][] matrix2){
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(!Objects.equals(matrix1[i][j],matrix2[i][j])){
+                    return new int[]{i, j};
                 }
             }
         }
         return null;
     }
 
-    private boolean checkIfMatricesAreEqual(String[][] matrix1, Possibility possibility){
-        for(int i = 0; i < matrix1.length; i++){
-            for(int j = 0; j < matrix1[i].length; j++){
-                if(!Objects.equals(matrix1[i][j], possibility.matrix[i][j])){
+    public void updateMatrix(String[][] matrix){
+        this.matrix = matrix;
+    }
+    private boolean checkIfEitherPlayerOrCpuWinsOrDraw(String[][] matrix, String match){
+        if(Objects.equals(matrix[0][0], match) && Objects.equals(matrix[0][1], match) && Objects.equals(matrix[0][2], match)){
+            return true;
+        } else if(Objects.equals(matrix[1][0], match) && Objects.equals(matrix[1][1], match) && Objects.equals(matrix[1][2], match)){
+            return true;
+        } else if(Objects.equals(matrix[2][0], match) && Objects.equals(matrix[2][1], match) && Objects.equals(matrix[2][2], match)){
+            return true;
+        } else if(Objects.equals(matrix[0][0], match) && Objects.equals(matrix[1][0], match) && Objects.equals(matrix[2][0], match)){
+            return true;
+        } else if(Objects.equals(matrix[0][1], match) && Objects.equals(matrix[1][1], match) && Objects.equals(matrix[2][1], match)){
+            return true;
+        } else if(Objects.equals(matrix[0][2], match) && Objects.equals(matrix[1][2], match) && Objects.equals(matrix[2][2], match)){
+            return true;
+        } else if(Objects.equals(matrix[0][0], match) && Objects.equals(matrix[1][1], match) && Objects.equals(matrix[2][2], match)){
+            return true;
+        } else if(Objects.equals(matrix[0][2], match) && Objects.equals(matrix[1][1], match) && Objects.equals(matrix[2][0], match)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    private boolean checkIfGameIsTie(String[][] matrix) {
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(Objects.equals(matrix[i][j], "")){
                     return false;
                 }
             }
         }
         return true;
-    }
-
-    public void updateMatrix(int row, int col, String player){
-        this.matrix[row][col] = player;
-    }
-    private boolean checkIfEitherPlayerOrCpuWins(String[][] matrix, String match) {
-        // Check rows and columns
-        for (int i = 0; i < 3; i++) {
-            if (Objects.equals(matrix[i][0], match) && Objects.equals(matrix[i][1], match) && Objects.equals(matrix[i][2], match)) {
-                return true; // Rows
-            }
-            if (Objects.equals(matrix[0][i], match) && Objects.equals(matrix[1][i], match) && Objects.equals(matrix[2][i], match)) {
-                return true; // Columns
-            }
-        }
-
-        // Check diagonals
-        if (Objects.equals(matrix[0][0], match) && Objects.equals(matrix[1][1], match) && Objects.equals(matrix[2][2], match)) {
-            return true; // Top-left to bottom-right diagonal
-        }
-        if (Objects.equals(matrix[0][2], match) && Objects.equals(matrix[1][1], match) && Objects.equals(matrix[2][0], match)) {
-            return true; // Top-right to bottom-left diagonal
-        }
-
-        return false;
-    }
-    private boolean checkIfEitherPlayerOrCpuWinsOrDraw(String[][] matrix, String match) {
-        // Check rows and columns
-        for (int i = 0; i < 3; i++) {
-            if (Objects.equals(matrix[i][0], match) && Objects.equals(matrix[i][1], match) && Objects.equals(matrix[i][2], match)) {
-                return true; // Rows
-            }
-            if (Objects.equals(matrix[0][i], match) && Objects.equals(matrix[1][i], match) && Objects.equals(matrix[2][i], match)) {
-                return true; // Columns
-            }
-        }
-
-        // Check diagonals
-        if (Objects.equals(matrix[0][0], match) && Objects.equals(matrix[1][1], match) && Objects.equals(matrix[2][2], match)) {
-            return true; // Top-left to bottom-right diagonal
-        }
-        if (Objects.equals(matrix[0][2], match) && Objects.equals(matrix[1][1], match) && Objects.equals(matrix[2][0], match)) {
-            return true; // Top-right to bottom-left diagonal
-        }
-
-        // Check for a draw
-        boolean isDraw = true;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (matrix[i][j].equals("")) {
-                    isDraw = false;
-                    break;
-                }
-            }
-            if (!isDraw) {
-                break;
-            }
-        }
-
-        return isDraw;
     }
 
     private void CopyMatrixTo(String[][] from, String[][] to){

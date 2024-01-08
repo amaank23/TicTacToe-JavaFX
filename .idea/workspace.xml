@@ -5,27 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dca9fb48-a171-42d8-910f-0ff8e5d4c676" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/HelloController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/LinearList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/ListNode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/Possibility.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/TicTacToe.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/TicTacToeApp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/Tree.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/TreeNode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/Turn.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/tictactoeapp/hello-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/Possibility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/Possibility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/TicTacToe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/TicTacToe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/TicTacToeApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/TicTacToeApp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,17 +30,26 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.TicTacToeApp.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/Aman/IdeaProjects/TicTacToeApp/src/main/java/com/example/tictactoeapp"
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/projects/TicTacToe-JavaFX"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Aman\IdeaProjects\TicTacToeApp\src\main\java\com\example\tictactoeapp" />
     </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.1-openjdk-21.0.1-f644763e9732-f98dd351" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -70,19 +63,10 @@
     <servers />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/TicTacToe.java</url>
-          <line>64</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/TicTacToe.java</url>
-          <line>62</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="myGame.gameTree.root.branches.get(3)" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
