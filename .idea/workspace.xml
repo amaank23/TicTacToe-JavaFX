@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dca9fb48-a171-42d8-910f-0ff8e5d4c676" name="Changes" comment="">
+    <list default="true" id="dca9fb48-a171-42d8-910f-0ff8e5d4c676" name="Changes" comment="added some changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/TicTacToe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/TicTacToe.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/TicTacToeApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/TicTacToeApp.java" afterDir="false" />
@@ -58,28 +58,22 @@
       <option name="presentableId" value="Default" />
       <updated>1704585098741</updated>
     </task>
+    <task id="LOCAL-00001" summary="added some changes">
+      <option name="closed" value="true" />
+      <created>1704743866028</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1704743866028</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added some changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="added some changes" />
+  </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/TicTacToeApp.java</url>
-          <line>93</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/TicTacToe.java</url>
-          <line>76</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/tictactoeapp/TicTacToe.java</url>
-          <line>85</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="myGame.gameTree.root.branches.get(3)" />

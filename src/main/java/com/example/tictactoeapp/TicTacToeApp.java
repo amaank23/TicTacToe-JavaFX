@@ -12,7 +12,6 @@ import java.util.Objects;
 public class TicTacToeApp extends Application {
 
     private String currentPlayer = "X";
-    private String[][] matrix = new String[][]{{"", "", ""}, {"", "", ""}, {"", "", ""}};
     TicTacToe myGame;
     private boolean playerFirstMoveCompleted = false;
     private Button[][] buttons = new Button[3][3];
@@ -26,7 +25,7 @@ public class TicTacToeApp extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Tic Tac Toe");
 
-        myGame = new TicTacToe(matrix);
+        myGame = new TicTacToe();
         // Create start screen
         StackPane startLayout = createStartLayout(primaryStage);
         Scene startScene = new Scene(startLayout, 300, 200);
@@ -85,31 +84,25 @@ public class TicTacToeApp extends Application {
 
         if (button.getText().isEmpty()) {
             if(!playerFirstMoveCompleted){
-                matrix[row][col] = currentPlayer;
-                myGame.updateMatrix(matrix);
+                myGame.matrix[row][col] = currentPlayer;
                 myGame.Start();
                 playerFirstMoveCompleted = true;
                 button.setText(currentPlayer);
-                myGame.findBestMove(myGame.gameTree.root);
-                System.out.println(myGame.gameTree.root);
-//                int[] indexes = myGame.checkIfMatricesAreEqual(this.matrix, this.myGame.gameTree.root.branches.get(bestMove).data.matrix);
-//                matrix[indexes[0]][indexes[1]] = "O";
-//                myGame.updateMatrix(matrix);
-//                Button cpuButton = buttons[indexes[0]][indexes[1]];
-//                cpuButton.setText("O");
+                int[] indexes = myGame.findBestMove(myGame.gameTree.root);
+                myGame.matrix[indexes[0]][indexes[1]] = "O";
+                Button cpuButton = buttons[indexes[0]][indexes[1]];
+                cpuButton.setText("O");
                 return;
             }
-//            matrix[row][col] = currentPlayer;
-//            myGame.updateMatrix(matrix);
-//            myGame.NullTreeRoot();
-//            myGame.Start();
-//            button.setText(currentPlayer);
-//            int bestMove = myGame.findBestMove(myGame.gameTree.root);
-//            int[] indexes = myGame.checkIfMatricesAreEqual(this.matrix, this.myGame.gameTree.root.branches.get(bestMove).data.matrix);
-//            matrix[indexes[0]][indexes[1]] = "O";
-//            myGame.updateMatrix(indexes[0], indexes[1], "0");
-//            Button cpuButton = buttons[indexes[0]][indexes[1]];
-//            cpuButton.setText("O");
+            myGame.matrix[row][col] = currentPlayer;
+            button.setText(currentPlayer);
+            int[] indexes = myGame.findBestMove(myGame.gameTree.root);
+            if(indexes != null){
+                myGame.matrix[indexes[0]][indexes[1]] = "O";
+                Button cpuButton = buttons[indexes[0]][indexes[1]];
+                cpuButton.setText("O");
+            }
+
 
         }
     }

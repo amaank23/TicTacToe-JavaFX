@@ -6,8 +6,8 @@ import java.util.Objects;
 public class TicTacToe {
     public String[][] matrix;
     public Tree gameTree;
-    public TicTacToe(String[][] matrix){
-        this.matrix = matrix;
+    public TicTacToe(){
+        this.matrix = new String[][]{{"", "", ""}, {"", "", ""}, {"", "", ""}};
         this.gameTree = new Tree();
     }
 
@@ -92,8 +92,19 @@ public class TicTacToe {
         }
     }
 
-    public void findBestMove(TreeNode root) {
+    public int[] findBestMove(TreeNode root) {
         getCpuMoveRowAndCol(root, Turn.PLAYER);
+        String[][] matrixWithNewMove = null;
+        for(int i = 0; i < root.branches.size(); i++){
+            TreeNode currentBranch = root.branches.get(i);
+            if(currentBranch.data.score == -1){
+                matrixWithNewMove = currentBranch.data.matrix;
+            }
+        }
+        if(matrixWithNewMove != null){
+            return checkIfMatricesAreEqual(this.matrix, matrixWithNewMove);
+        }
+        return null;
     }
 
     public int[] chooseRandomEmptyCell(String[][] matrix) {
