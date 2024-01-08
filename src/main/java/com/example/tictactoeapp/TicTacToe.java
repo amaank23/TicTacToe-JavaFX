@@ -60,7 +60,7 @@ public class TicTacToe {
         }
     }
 
-    public int getCpuMoveRowAndCol(TreeNode node, boolean isMaximizingPlayer) {
+    public int getCpuMoveRowAndCol(TreeNode node, Turn turn) {
         TreeNode root = node;
 
         if (checkIfEitherPlayerOrCpuWinsOrDraw(root.data.matrix, "O")) {
@@ -68,43 +68,32 @@ public class TicTacToe {
         } else if (checkIfEitherPlayerOrCpuWinsOrDraw(root.data.matrix, "X")) {
             return 1;
         } else if (checkIfGameIsTie(root.data.matrix)) {
-            return 0;
+            return -1;
         }
 
-        if (isMaximizingPlayer) {
+        if (turn == Turn.PLAYER) {
             int maxScore = Integer.MIN_VALUE;
             for (int i = 0; i < root.branches.size(); i++) {
                 TreeNode currentBranch = root.branches.get(i);
-                int score = getCpuMoveRowAndCol(currentBranch, false);
+                int score = getCpuMoveRowAndCol(currentBranch, Turn.CPU);
                 maxScore = Math.max(maxScore, score);
+                currentBranch.data.score = maxScore;
             }
             return maxScore;
         } else {
             int minScore = Integer.MAX_VALUE;
             for (int i = 0; i < root.branches.size(); i++) {
                 TreeNode currentBranch = root.branches.get(i);
-                int score = getCpuMoveRowAndCol(currentBranch, true);
+                int score = getCpuMoveRowAndCol(currentBranch, Turn.PLAYER);
                 minScore = Math.min(minScore, score);
+                currentBranch.data.score = minScore;
             }
             return minScore;
         }
     }
 
-    public int findBestMove(TreeNode root) {
-        int bestMove = -1;
-        int bestScore = Integer.MIN_VALUE;
-
-        for (int i = 0; i < root.branches.size(); i++) {
-            TreeNode currentBranch = root.branches.get(i);
-            int score = getCpuMoveRowAndCol(currentBranch, false);
-
-            if (score > bestScore) {
-                bestScore = score;
-                bestMove = i;
-            }
-        }
-
-        return bestMove;
+    public void findBestMove(TreeNode root) {
+        getCpuMoveRowAndCol(root, Turn.PLAYER);
     }
 
     public int[] chooseRandomEmptyCell(String[][] matrix) {
