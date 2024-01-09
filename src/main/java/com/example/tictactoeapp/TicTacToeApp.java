@@ -88,7 +88,8 @@ public class TicTacToeApp extends Application {
                 myGame.Start();
                 playerFirstMoveCompleted = true;
                 button.setText(currentPlayer);
-                int[] indexes = myGame.findBestMove(myGame.gameTree.root);
+                myGame.getCpuMoveRowAndCol(this.myGame.gameTree.root, Turn.PLAYER);
+                int[] indexes = myGame.findBestMove();
                 myGame.matrix[indexes[0]][indexes[1]] = "O";
                 Button cpuButton = buttons[indexes[0]][indexes[1]];
                 cpuButton.setText("O");
@@ -96,7 +97,7 @@ public class TicTacToeApp extends Application {
             }
             myGame.matrix[row][col] = currentPlayer;
             button.setText(currentPlayer);
-            int[] indexes = myGame.findBestMove(myGame.gameTree.root);
+            int[] indexes = myGame.findBestMove();
             if(indexes != null){
                 myGame.matrix[indexes[0]][indexes[1]] = "O";
                 Button cpuButton = buttons[indexes[0]][indexes[1]];

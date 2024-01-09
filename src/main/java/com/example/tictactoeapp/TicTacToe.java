@@ -64,47 +64,83 @@ public class TicTacToe {
         TreeNode root = node;
 
         if (checkIfEitherPlayerOrCpuWinsOrDraw(root.data.matrix, "O")) {
-            return -1;
+            root.data.score = -1 * (countNoOfEmptyCells(root.data.matrix) + 1);
+            return -1 * (countNoOfEmptyCells(root.data.matrix) + 1);
         } else if (checkIfEitherPlayerOrCpuWinsOrDraw(root.data.matrix, "X")) {
-            return 1;
+            root.data.score = 1 * (countNoOfEmptyCells(root.data.matrix) + 1);
+            return 1 * (countNoOfEmptyCells(root.data.matrix) + 1);
         } else if (checkIfGameIsTie(root.data.matrix)) {
-            return -1;
+            root.data.score = -1 * (countNoOfEmptyCells(root.data.matrix) + 1);
+            return -1 * (countNoOfEmptyCells(root.data.matrix) + 1);
         }
+        int bestScore;
 
         if (turn == Turn.PLAYER) {
-            int maxScore = Integer.MIN_VALUE;
+            bestScore = Integer.MIN_VALUE;
             for (int i = 0; i < root.branches.size(); i++) {
                 TreeNode currentBranch = root.branches.get(i);
                 int score = getCpuMoveRowAndCol(currentBranch, Turn.CPU);
-                maxScore = Math.max(maxScore, score);
-                currentBranch.data.score = maxScore;
+                if (score > bestScore) {
+                    bestScore = score;
+                }
             }
-            return maxScore;
         } else {
-            int minScore = Integer.MAX_VALUE;
+            bestScore = Integer.MAX_VALUE;
             for (int i = 0; i < root.branches.size(); i++) {
                 TreeNode currentBranch = root.branches.get(i);
                 int score = getCpuMoveRowAndCol(currentBranch, Turn.PLAYER);
-                minScore = Math.min(minScore, score);
-                currentBranch.data.score = minScore;
+                if (score < bestScore) {
+                    bestScore = score;
+                }
             }
-            return minScore;
         }
+        node.data.score = bestScore * (countNoOfEmptyCells(root.data.matrix) + 1);
+        return bestScore;
     }
 
-    public int[] findBestMove(TreeNode root) {
-        getCpuMoveRowAndCol(root, Turn.PLAYER);
+    public int[] findBestMove() {
+        if(this.gameTree.root.data.turn == Turn.CPU){
+            for(int i = 0; i < this.gameTree.root.branches.size(); i++){
+                TreeNode currentBranch = this.gameTree.root.branches.get(i);
+                if(checkIfMatricesAreEquals(this.matrix, currentBranch.data.matrix)){
+                    this.gameTree.root = currentBranch;
+                    break;
+                }
+            }
+        }
         String[][] matrixWithNewMove = null;
-        for(int i = 0; i < root.branches.size(); i++){
-            TreeNode currentBranch = root.branches.get(i);
-            if(currentBranch.data.score == -1){
+        int minimumScore = this.gameTree.root.branches.get(0).data.score;
+        for(int i = 0; i < this.gameTree.root.branches.size(); i++){
+            TreeNode currentBranch = this.gameTree.root.branches.get(i);
+            if(currentBranch.data.score < minimumScore){
+                minimumScore = currentBranch.data.score;
+            }
+        }
+        for(int i = 0; i < this.gameTree.root.branches.size(); i++){
+            TreeNode currentBranch = this.gameTree.root.branches.get(i);
+            if(currentBranch.data.score == minimumScore){
                 matrixWithNewMove = currentBranch.data.matrix;
+                this.gameTree.root = currentBranch;
+                break;
             }
         }
         if(matrixWithNewMove != null){
-            return checkIfMatricesAreEqual(this.matrix, matrixWithNewMove);
+            return getTheNewMove(this.matrix, matrixWithNewMove);
         }
+
         return null;
+    }
+
+    public int countNoOfEmptyCells(String[][] matrix){
+        int count = 0;
+        for(int i = 0; i < matrix.length; i++){
+            for(int j = 0; j < matrix[i].length; j++){
+                if(Objects.equals(matrix[i][j], "")){
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
     public int[] chooseRandomEmptyCell(String[][] matrix) {
@@ -122,7 +158,7 @@ public class TicTacToe {
         }
     }
 
-    public int[] checkIfMatricesAreEqual(String[][] matrix1, String[][] matrix2){
+    public int[] getTheNewMove(String[][] matrix1, String[][] matrix2){
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
                 if(!Objects.equals(matrix1[i][j],matrix2[i][j])){
@@ -131,6 +167,17 @@ public class TicTacToe {
             }
         }
         return null;
+    }
+
+    public boolean checkIfMatricesAreEquals(String[][] matrix1, String[][] matrix2){
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(!Objects.equals(matrix1[i][j],matrix2[i][j])){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public void updateMatrix(String[][] matrix){
